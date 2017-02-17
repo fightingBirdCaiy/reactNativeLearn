@@ -5,7 +5,8 @@
  */
 
  import React, { Component } from 'react';
- import { AppRegistry, StyleSheet, View, Text, Image } from 'react-native';
+
+ import { AppRegistry, StyleSheet, View, Text, Image, TouchableHighlight } from 'react-native';
 
  class Blink extends Component {
   constructor(props) {
@@ -13,26 +14,50 @@
     this.state = { showText: true };
 
     // 每1000毫秒对showText状态做一次取反操作
-    setInterval(() => {
-      this.setState({ showText: !this.state.showText });
-    }, 1000);
-  }
+    // setInterval(() => {
+      // this.setState({ showText: !this.state.showText });
+    // }, 1000);
+    // setTimeout(() => {
+      // fetchWeatherFromApi()
+    // },3000)
+  };
 
   render() {
     // 根据当前showText的值决定是否显示text内容
     let display = this.state.showText ? this.props.text : ' ';
+
     return (
       <Text>{display}</Text>
     );
-  }
+  };
 }
 
- class HelloWorldApp extends Component {
-   render() {
 
-     let pic = {
+
+ class HelloWorldApp extends Component {
+    render() {
+
+    let pic = {
       uri: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1484815476621&di=f515d0719112527e60f111ec25d56e08&imgtype=0&src=http%3A%2F%2Fpic32.nipic.com%2F20130805%2F13003902_110510104000_2.jpg'
     };
+
+    function fetchWeatherFromApi(){
+      try{
+        fetch('https://free-api.heweather.com/v5/now?city=beijing&key=9e6aa5cbcb994295ae8e54da94f48bba')
+        .then((response) => {
+          response.json();
+        })
+        .then((responseJson) => {
+          console.log(responseJson);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+      }catch(error){
+        console.error(error);
+      }
+    };
+
     return (
       <View style={{alignItems: 'center'}}>
         <Text> </Text>
@@ -43,7 +68,9 @@
         <Text> </Text>
         <Text> </Text>
         <Text> </Text>
-        <Image source={pic} style={{width: 390, height: 260}} />
+        <TouchableHighlight onPress={fetchWeatherFromApi()}>
+          <Image source={pic} style={{width: 390, height: 260}} />
+        </TouchableHighlight>
       </View>
 
     );
